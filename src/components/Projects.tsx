@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 
 interface ProjectProps {
   name: string;
@@ -7,17 +8,49 @@ interface ProjectProps {
   problem: string;
   role: string;
   outcome: string;
+  microcopy: string;
   index: number;
 }
 
-const Project = ({ name, tagline, problem, role, outcome, index }: ProjectProps) => {
+const Project = ({ name, tagline, problem, role, outcome, microcopy, index }: ProjectProps) => {
+  const ref = useRef<HTMLElement>(null);
+  
+  // Cursor tilt effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [2, -2]), { stiffness: 100, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-2, 2]), { stiffness: 100, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   return (
     <motion.article
+      ref={ref}
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
-      className="group relative py-16 md:py-24 border-b border-border last:border-b-0"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ 
+        rotateX,
+        rotateY,
+        transformPerspective: 1000,
+      }}
+      className="group relative py-16 md:py-24 border-b border-border last:border-b-0 will-change-transform"
     >
       <div className="grid md:grid-cols-12 gap-8 md:gap-12">
         {/* Project Header */}
@@ -26,55 +59,91 @@ const Project = ({ name, tagline, problem, role, outcome, index }: ProjectProps)
             <span className="font-body text-xs tracking-widest uppercase text-subtle mb-4 block">
               Project
             </span>
-            <h3 className="font-display text-3xl md:text-4xl mb-3 group-hover:text-primary transition-colors duration-300">
+            <motion.h3 
+              className="font-display text-3xl md:text-4xl mb-3 group-hover:text-primary transition-colors duration-500"
+              whileHover={{ letterSpacing: "0.02em" }}
+              transition={{ duration: 0.3 }}
+            >
               {name}
-            </h3>
+            </motion.h3>
             <p className="font-display text-lg italic text-body">
               {tagline}
             </p>
+            
+            {/* Microcopy - appears on hover */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 0 }}
+              className="font-body text-xs text-primary mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            >
+              {microcopy}
+            </motion.p>
           </div>
         </div>
 
         {/* Project Details */}
         <div className="md:col-span-8 space-y-8">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
               The Problem
             </h4>
             <p className="font-body text-lg text-body leading-relaxed">
               {problem}
             </p>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
               My Role
             </h4>
             <p className="font-body text-body leading-relaxed">
               {role}
             </p>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
               What Changed
             </h4>
             <p className="font-body text-body leading-relaxed">
               {outcome}
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
+      {/* Hover indicator with enhanced animation */}
       <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4, delay: 0.5 }}
-        className="absolute right-0 top-16 md:top-24 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0 }}
+        whileHover={{ opacity: 1, scale: 1 }}
+        className="absolute right-0 top-16 md:top-24 opacity-0 group-hover:opacity-100 transition-all duration-500"
       >
-        <ArrowUpRight className="w-6 h-6 text-primary" />
+        <motion.div
+          animate={{ x: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowUpRight className="w-6 h-6 text-primary" />
+        </motion.div>
       </motion.div>
+      
+      {/* Subtle elevation shadow on hover */}
+      <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b from-transparent via-warm/30 to-transparent rounded-3xl" />
     </motion.article>
   );
 };
@@ -87,6 +156,7 @@ export const Projects = () => {
       problem: "Community managers spend hours manually tracking who paid, sending reminders, and reconciling payments. It's friction that kills momentum.",
       role: "Led product from concept through pre-launch. Owned the roadmap, coordinated with a small team of 3, and made the hard calls about what to cut and what to ship.",
       outcome: "Transformed payment collection from a weekly headache into a background process. The product handles what used to take hours.",
+      microcopy: "The one I'm most proud of →",
     },
     {
       name: "Threadbase",
@@ -94,6 +164,7 @@ export const Projects = () => {
       problem: "The team had ideas but no clear direction. Features were being discussed but nothing was moving from concept to reality.",
       role: "Stepped in as the delivery-focused PM. Translated scattered requirements into actionable specs, coordinated across design and engineering, and kept everyone aligned on weekly milestones.",
       outcome: "Shipped the first usable version in 6 weeks. Created a repeatable process the team still uses.",
+      microcopy: "Where I learned to ship fast →",
     },
     {
       name: "EventNav / Nexspot",
@@ -101,6 +172,7 @@ export const Projects = () => {
       problem: "Event discovery and planning felt fragmented. No single tool connected the dots between finding events, coordinating with friends, and actually attending.",
       role: "Founded and led product direction. Made decisions on feature priority, user experience, and technical architecture. This was the 'do everything' founder role.",
       outcome: "Built a working product and learned more about execution, constraints, and what it means to own something end-to-end.",
+      microcopy: "The founder chapter →",
     },
   ];
 

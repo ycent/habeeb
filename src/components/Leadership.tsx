@@ -1,23 +1,48 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 interface RoleProps {
   organization: string;
   description: string;
+  stats: string;
   index: number;
 }
 
-const Role = ({ organization, description, index }: RoleProps) => {
+const Role = ({ organization, description, stats, index }: RoleProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-8 border-b border-border last:border-b-0"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-8 border-b border-border last:border-b-0 cursor-default"
     >
-      <h3 className="font-display text-xl md:text-2xl md:w-1/3 group-hover:text-primary transition-colors duration-300">
-        {organization}
-      </h3>
+      <div className="md:w-1/3">
+        <motion.h3 
+          className="font-display text-xl md:text-2xl group-hover:text-primary transition-colors duration-300"
+          animate={{ x: isHovered ? 4 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {organization}
+        </motion.h3>
+        
+        {/* Progressive disclosure - stats appear on hover */}
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ 
+            opacity: isHovered ? 1 : 0,
+            height: isHovered ? "auto" : 0,
+          }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="font-body text-xs text-primary mt-2 overflow-hidden"
+        >
+          {stats}
+        </motion.p>
+      </div>
       <p className="font-body text-body leading-relaxed md:w-2/3">
         {description}
       </p>
@@ -30,10 +55,12 @@ export const Leadership = () => {
     {
       organization: "Google Developer Groups",
       description: "Led community initiatives at scale. Coordinated events, managed volunteers, and built systems that kept hundreds of developers connected and engaged.",
+      stats: "500+ developers • 20+ events",
     },
     {
       organization: "New Horizon Tech-Hub",
       description: "Directed student projects from idea to execution. Created frameworks for team collaboration that turned first-time builders into confident shippers.",
+      stats: "15+ projects shipped • 40+ students mentored",
     },
   ];
 

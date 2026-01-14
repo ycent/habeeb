@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
 
 interface CardProps {
   title: string;
@@ -10,22 +10,69 @@ interface CardProps {
 
 const Card = ({ title, description, expanded, index }: CardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  
+  // Tilt effect
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [4, -4]), { stiffness: 150, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-4, 4]), { stiffness: 150, damping: 20 });
+  const scale = useSpring(isHovered ? 1.02 : 1, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+    setIsHovered(false);
+  };
 
   return (
     <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="group relative p-8 md:p-10 bg-warm rounded-2xl cursor-pointer transition-all duration-500 hover:bg-warm-hover"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ 
+        rotateX,
+        rotateY,
+        scale,
+        transformPerspective: 800,
+      }}
+      className="group relative p-8 md:p-10 bg-warm rounded-2xl cursor-pointer will-change-transform"
     >
+      {/* Subtle shadow on hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl -z-10"
+        animate={{
+          boxShadow: isHovered 
+            ? "0 20px 40px -15px hsl(var(--primary) / 0.1), 0 8px 16px -8px hsl(var(--primary) / 0.05)"
+            : "0 0 0 0 transparent",
+        }}
+        transition={{ duration: 0.4 }}
+      />
+      
       <div className="relative z-10">
-        <span className="font-body text-xs tracking-widest uppercase text-subtle mb-4 block">
+        <motion.span 
+          className="font-body text-xs tracking-widest uppercase text-subtle mb-4 block"
+          animate={{ letterSpacing: isHovered ? "0.15em" : "0.1em" }}
+          transition={{ duration: 0.3 }}
+        >
           0{index + 1}
-        </span>
-        <h3 className="font-display text-2xl md:text-3xl mb-4 transition-colors duration-300">
+        </motion.span>
+        <h3 className="font-display text-2xl md:text-3xl mb-4 transition-colors duration-300 group-hover:text-primary">
           {title}
         </h3>
         <p className="font-body text-body leading-relaxed mb-4">
@@ -38,7 +85,7 @@ const Card = ({ title, description, expanded, index }: CardProps) => {
             height: isHovered ? "auto" : 0,
             opacity: isHovered ? 1 : 0
           }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
           className="overflow-hidden"
         >
           <p className="font-body text-sm text-subtle leading-relaxed pt-4 border-t border-border">
@@ -47,10 +94,14 @@ const Card = ({ title, description, expanded, index }: CardProps) => {
         </motion.div>
       </div>
       
+      {/* Animated dot indicator */}
       <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ 
+          scale: isHovered ? 1 : 0,
+          opacity: isHovered ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: "backOut" }}
         className="absolute top-6 right-6 w-2 h-2 rounded-full bg-primary"
       />
     </motion.div>

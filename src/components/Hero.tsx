@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useCursorPosition } from "@/hooks/useCursorPosition";
+import { useRef } from "react";
 
 const phrases = [
   "I turn vague ideas into shipped products.",
@@ -9,9 +11,33 @@ const phrases = [
 ];
 
 export const Hero = () => {
+  const containerRef = useRef<HTMLElement>(null);
+  const cursor = useCursorPosition();
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Smooth spring for cursor parallax
+  const cursorX = useSpring(cursor.normalizedX * 8, { stiffness: 50, damping: 30 });
+  const cursorY = useSpring(cursor.normalizedY * 8, { stiffness: 50, damping: 30 });
+
+  // Scroll-based transforms
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 0.4], [0, -50]);
+  const subtitleIndex = useTransform(scrollYProgress, [0, 0.05, 0.1], [0, 1, 2]);
+
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 relative">
-      <div className="max-w-4xl">
+    <motion.section 
+      ref={containerRef}
+      style={{ opacity: heroOpacity }}
+      className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 relative overflow-hidden"
+    >
+      <motion.div 
+        className="max-w-4xl"
+        style={{ y: heroY }}
+      >
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -25,7 +51,11 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight mb-8 text-foreground"
+          style={{ 
+            x: cursorX,
+            y: cursorY,
+          }}
+          className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight mb-8 text-foreground will-change-transform"
         >
           Hi, I'm Habeeb.
         </motion.h1>
@@ -47,7 +77,7 @@ export const Hero = () => {
             ))}
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       <motion.div
         initial={{ opacity: 0 }}
@@ -64,6 +94,6 @@ export const Hero = () => {
           <ChevronDown className="w-4 h-4" />
         </motion.div>
       </motion.div>
-    </section>
+    </motion.section>
   );
 };
