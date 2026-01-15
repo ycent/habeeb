@@ -100,6 +100,13 @@
     scroll-behavior: smooth;
   }
 
+  /* Smooth theme transitions */
+  html,
+  body,
+  * {
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;

@@ -39,30 +39,16 @@ export const HeroDotField = ({ activeIndex }: { activeIndex: number }) => {
           opacity: scrollOpacity,
         }}
       >
-        <svg
+        <div 
           className="w-[calc(100%+200px)] h-[calc(100%+200px)]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern
-              id="gridPattern"
-              x="0"
-              y="0"
-              width="60"
-              height="60"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 60 0 L 0 0 0 60"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="0.5"
-                className="text-foreground/[0.04]"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#gridPattern)" />
-        </svg>
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px',
+          }}
+        />
       </motion.div>
 
       {/* Dot field layer - faster parallax for depth */}
@@ -83,7 +69,7 @@ export const HeroDotField = ({ activeIndex }: { activeIndex: number }) => {
           <motion.div
             style={{ y: scrollY, opacity: scrollOpacity }}
             animate={{
-              opacity: [0.1, 0.16, 0.1],
+              opacity: [0.08, 0.14, 0.08],
             }}
             transition={{
               opacity: {
@@ -93,29 +79,13 @@ export const HeroDotField = ({ activeIndex }: { activeIndex: number }) => {
               },
             }}
           >
-            <svg
+            <div 
               className="w-[calc(100%+160px)] h-[calc(100%+160px)]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <pattern
-                  id="dotPattern"
-                  x="0"
-                  y="0"
-                  width="24"
-                  height="24"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <circle
-                    cx="2"
-                    cy="2"
-                    r="1"
-                    className="fill-foreground/30"
-                  />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#dotPattern)" />
-            </svg>
+              style={{
+                backgroundImage: `radial-gradient(circle, hsl(var(--foreground) / 0.25) 1px, transparent 1px)`,
+                backgroundSize: '20px 20px',
+              }}
+            />
           </motion.div>
         </motion.div>
       </motion.div>
