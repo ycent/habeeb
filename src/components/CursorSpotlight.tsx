@@ -30,11 +30,11 @@ export const CursorSpotlight = () => {
       transition={{ duration: 1 }}
     >
       <motion.div
-        className="absolute w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute w-[200px] h-[200px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           x,
           y,
-          background: "radial-gradient(circle, hsl(var(--foreground) / 0.03) 0%, transparent 70%)",
+          background: "radial-gradient(circle, hsl(var(--foreground) / 0.015) 0%, transparent 50%)",
         }}
       />
     </motion.div>
