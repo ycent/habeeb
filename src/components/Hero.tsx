@@ -15,17 +15,17 @@ export const Hero = () => {
     offset: ["start start", "end start"],
   });
 
-  // Rotate statements every 4 seconds - slow and meditative
+  // Auto-rotate statements every 3.5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % statements.length);
-    }, 4000);
+    }, 3500);
     return () => clearInterval(interval);
   }, []);
 
-  // Smooth spring for cursor parallax
-  const cursorX = useSpring(cursor.normalizedX * 8, { stiffness: 50, damping: 30 });
-  const cursorY = useSpring(cursor.normalizedY * 8, { stiffness: 50, damping: 30 });
+  // Smooth spring for cursor parallax on headline
+  const cursorX = useSpring(cursor.normalizedX * 6, { stiffness: 50, damping: 30 });
+  const cursorY = useSpring(cursor.normalizedY * 6, { stiffness: 50, damping: 30 });
 
   // Scroll-based transforms
   const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
