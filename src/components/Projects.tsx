@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 interface ProjectProps {
   name: string;
@@ -9,20 +9,18 @@ interface ProjectProps {
   role: string;
   outcome: string;
   microcopy: string;
-  color: string;
   index: number;
 }
 
-const ProjectCard = ({ name, tagline, problem, role, outcome, microcopy, color, index }: ProjectProps) => {
+const Project = ({ name, tagline, problem, role, outcome, microcopy, index }: ProjectProps) => {
   const ref = useRef<HTMLElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
   
   // Cursor tilt effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), { stiffness: 120, damping: 20 });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), { stiffness: 120, damping: 20 });
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [2, -2]), { stiffness: 100, damping: 20 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-2, 2]), { stiffness: 100, damping: 20 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!ref.current) return;
@@ -36,7 +34,6 @@ const ProjectCard = ({ name, tagline, problem, role, outcome, microcopy, color, 
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
-    setIsHovered(false);
   };
 
   return (
@@ -45,127 +42,108 @@ const ProjectCard = ({ name, tagline, problem, role, outcome, microcopy, color, 
       initial={{ opacity: 0, y: 60 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay: index * 0.15 }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{ 
         rotateX,
         rotateY,
-        transformPerspective: 1200,
+        transformPerspective: 1000,
       }}
-      className="group relative will-change-transform"
+      className="group relative py-16 md:py-24 border-b border-border last:border-b-0 will-change-transform"
     >
-      {/* Project Image Card with Hover Effect */}
-      <div className="relative overflow-hidden rounded-2xl mb-6 cursor-pointer">
-        {/* Placeholder Image Background */}
-        <motion.div 
-          className={`aspect-[16/10] ${color} relative`}
-          animate={{ scale: isHovered ? 1.03 : 1 }}
-          transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-        >
-          {/* Abstract pattern overlay */}
-          <div className="absolute inset-0 opacity-20">
-            <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <defs>
-                <pattern id={`grid-${index}`} width="10" height="10" patternUnits="userSpaceOnUse">
-                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-foreground/20" />
-                </pattern>
-              </defs>
-              <rect width="100" height="100" fill={`url(#grid-${index})`} />
-            </svg>
-          </div>
-          
-          {/* Project name watermark */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-6xl md:text-8xl text-foreground/5 select-none">
-              {name}
+      <div className="grid md:grid-cols-12 gap-8 md:gap-12">
+        {/* Project Header */}
+        <div className="md:col-span-4">
+          <div className="sticky top-24">
+            <span className="font-body text-xs tracking-widest uppercase text-subtle mb-4 block">
+              Project
             </span>
+            <motion.h3 
+              className="font-display text-3xl md:text-4xl mb-3 group-hover:text-primary transition-colors duration-500"
+              whileHover={{ letterSpacing: "0.02em" }}
+              transition={{ duration: 0.3 }}
+            >
+              {name}
+            </motion.h3>
+            <p className="font-display text-lg italic text-body">
+              {tagline}
+            </p>
+            
+            {/* Microcopy - appears on hover */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 0 }}
+              className="font-body text-xs text-primary mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            >
+              {microcopy}
+            </motion.p>
           </div>
-        </motion.div>
-        
-        {/* Hover Overlay with Details */}
-        <motion.div 
-          className="absolute inset-0 bg-background/90 backdrop-blur-sm flex flex-col justify-end p-6 md:p-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          {/* Quick stats on hover */}
+        </div>
+
+        {/* Project Details */}
+        <div className="md:col-span-8 space-y-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : 20 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="space-y-4"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <div>
-              <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                The Problem
-              </h4>
-              <p className="font-body text-sm text-body leading-relaxed line-clamp-2">
-                {problem}
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                My Role
-              </h4>
-              <p className="font-body text-sm text-body leading-relaxed line-clamp-2">
-                {role}
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">
-                Outcome
-              </h4>
-              <p className="font-body text-sm text-body leading-relaxed line-clamp-2">
-                {outcome}
-              </p>
-            </div>
+            <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
+              The Problem
+            </h4>
+            <p className="font-body text-lg text-body leading-relaxed">
+              {problem}
+            </p>
           </motion.div>
-          
-          {/* Microcopy */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.3, delay: 0.25 }}
-            className="font-body text-xs text-primary mt-4"
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            {microcopy}
-          </motion.p>
-        </motion.div>
-        
-        {/* Corner arrow indicator */}
-        <motion.div 
-          className="absolute top-4 right-4"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ 
-            opacity: isHovered ? 1 : 0, 
-            scale: isHovered ? 1 : 0.8,
-            x: isHovered ? 0 : -4,
-            y: isHovered ? 0 : 4
-          }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-            <ArrowUpRight className="w-5 h-5 text-primary-foreground" />
-          </div>
-        </motion.div>
+            <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
+              My Role
+            </h4>
+            <p className="font-body text-body leading-relaxed">
+              {role}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <h4 className="font-body text-xs tracking-widest uppercase text-subtle mb-3">
+              What Changed
+            </h4>
+            <p className="font-body text-body leading-relaxed">
+              {outcome}
+            </p>
+          </motion.div>
+        </div>
       </div>
+
+      {/* Hover indicator with enhanced animation */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0 }}
+        whileHover={{ opacity: 1, scale: 1 }}
+        className="absolute right-0 top-16 md:top-24 opacity-0 group-hover:opacity-100 transition-all duration-500"
+      >
+        <motion.div
+          animate={{ x: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ArrowUpRight className="w-6 h-6 text-primary" />
+        </motion.div>
+      </motion.div>
       
-      {/* Project Info Below Card */}
-      <div className="px-1">
-        <motion.h3 
-          className="font-display text-2xl md:text-3xl mb-2 group-hover:text-primary transition-colors duration-400"
-        >
-          {name}
-        </motion.h3>
-        <p className="font-body text-body text-sm md:text-base leading-relaxed">
-          {tagline}
-        </p>
-      </div>
+      {/* Subtle elevation shadow on hover */}
+      <div className="absolute inset-0 -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-b from-transparent via-warm/30 to-transparent rounded-3xl" />
     </motion.article>
   );
 };
@@ -179,7 +157,6 @@ export const Projects = () => {
       role: "Led product from concept through pre-launch. Owned the roadmap, coordinated with a small team of 3, and made the hard calls about what to cut and what to ship.",
       outcome: "Transformed payment collection from a weekly headache into a background process. The product handles what used to take hours.",
       microcopy: "The one I'm most proud of →",
-      color: "bg-gradient-to-br from-accent-warm/20 to-accent-warm/5",
     },
     {
       name: "Threadbase",
@@ -188,7 +165,6 @@ export const Projects = () => {
       role: "Stepped in as the delivery-focused PM. Translated scattered requirements into actionable specs, coordinated across design and engineering, and kept everyone aligned on weekly milestones.",
       outcome: "Shipped the first usable version in 6 weeks. Created a repeatable process the team still uses.",
       microcopy: "Where I learned to ship fast →",
-      color: "bg-gradient-to-br from-accent-calm/20 to-accent-calm/5",
     },
     {
       name: "EventNav / Nexspot",
@@ -197,7 +173,6 @@ export const Projects = () => {
       role: "Founded and led product direction. Made decisions on feature priority, user experience, and technical architecture. This was the 'do everything' founder role.",
       outcome: "Built a working product and learned more about execution, constraints, and what it means to own something end-to-end.",
       microcopy: "The founder chapter →",
-      color: "bg-gradient-to-br from-accent-soft/20 to-accent-soft/5",
     },
   ];
 
@@ -208,7 +183,7 @@ export const Projects = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="max-w-xl mb-12"
+        className="max-w-xl mb-8"
       >
         <h2 className="font-display text-4xl md:text-5xl mb-6">
           Selected work
@@ -218,9 +193,9 @@ export const Projects = () => {
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="divide-y divide-border">
         {projects.map((project, index) => (
-          <ProjectCard key={project.name} {...project} index={index} />
+          <Project key={project.name} {...project} index={index} />
         ))}
       </div>
     </section>
