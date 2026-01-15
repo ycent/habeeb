@@ -37,7 +37,7 @@ export const RotatingStatement = ({ activeIndex }: RotatingStatementProps) => {
 
   return (
     <div 
-      className="h-16 overflow-hidden relative"
+      className="min-h-[3.5rem] md:min-h-[4rem] overflow-hidden relative"
       style={{ perspective: "1000px" }}
     >
       <AnimatePresence mode="wait">
@@ -60,14 +60,14 @@ export const RotatingStatement = ({ activeIndex }: RotatingStatementProps) => {
           }}
           transition={{
             duration: 0.7,
-            ease: [0.33, 1, 0.68, 1], // Custom easing for premium feel
+            ease: [0.33, 1, 0.68, 1],
           }}
           style={{
             transformOrigin: "center center",
             transformStyle: "preserve-3d",
             backfaceVisibility: "hidden",
           }}
-          className="font-body text-xl md:text-2xl text-body h-16 flex items-center absolute inset-0"
+          className="font-body text-lg sm:text-xl md:text-2xl text-body leading-relaxed"
         >
           <span>{current.before}</span>
           <span className={`${current.accentClass} font-semibold`}>
