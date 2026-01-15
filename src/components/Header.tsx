@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 export const Header = () => {
   const { scrollY } = useScroll();
@@ -31,7 +32,7 @@ export const Header = () => {
           HM
         </motion.a>
         
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           <motion.a 
             href="#work" 
             className="group font-body text-sm text-body hover:text-foreground transition-colors duration-300 relative"
@@ -50,6 +51,7 @@ export const Header = () => {
             Contact
             <span className="absolute left-0 bottom-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
           </motion.a>
+          <ThemeToggle />
         </div>
       </nav>
     </motion.header>
