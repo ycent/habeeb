@@ -43,10 +43,14 @@ export const Header = () => {
             <span className="absolute left-0 bottom-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
           </motion.a>
           <motion.a 
-            href="mailto:hello@habeeb.dev" 
+            href="#contact" 
             className="group font-body text-sm text-body hover:text-foreground transition-colors duration-300 relative"
             whileHover={{ y: -1 }}
             transition={{ duration: 0.2 }}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             Contact
             <span className="absolute left-0 bottom-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />

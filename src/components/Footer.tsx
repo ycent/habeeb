@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-import { Mail, Linkedin } from "lucide-react";
+import { Mail, Linkedin, Download } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-warm">
+    <footer id="contact" className="py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-surface-warm">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +44,7 @@ export const Footer = () => {
         >
           <motion.a
             href="mailto:hello@habeeb.dev"
-            className="group inline-flex items-center gap-3 font-body text-heading hover:text-primary transition-colors duration-300"
+            className="group inline-flex items-center gap-3 font-body text-foreground/80 hover:text-primary transition-colors duration-300"
             whileHover={{ x: 4 }}
             transition={{ duration: 0.2 }}
           >
@@ -59,7 +59,7 @@ export const Footer = () => {
             href="https://linkedin.com/in/habeebmuhammed"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 font-body text-heading hover:text-primary transition-colors duration-300"
+            className="group inline-flex items-center gap-3 font-body text-foreground/80 hover:text-primary transition-colors duration-300"
             whileHover={{ x: 4 }}
             transition={{ duration: 0.2 }}
           >
@@ -69,6 +69,19 @@ export const Footer = () => {
               <span className="absolute left-0 bottom-0 w-0 h-px bg-primary transition-all duration-300 group-hover:w-full" />
             </span>
           </motion.a>
+
+          <motion.a
+            href="/cv.pdf"
+            download
+            className="group inline-flex items-center gap-3 font-body text-foreground/60 hover:text-foreground/80 transition-colors duration-300 border border-border/50 px-4 py-2 rounded-sm hover:border-border"
+            whileHover={{ x: 4 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Download className="w-4 h-4" />
+            <span className="relative text-sm">
+              Download CV
+            </span>
+          </motion.a>
         </motion.div>
 
         <motion.div
@@ -76,16 +89,49 @@ export const Footer = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-24 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+          className="mt-24 pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
         >
-          <p className="font-body text-subtle text-sm">
-            © {new Date().getFullYear()} Habeeb Muhammed
-          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+            <p className="font-body text-muted-foreground text-sm">
+              © {new Date().getFullYear()} Habeeb Muhammed
+            </p>
+            
+            {/* Social links - whisper quiet */}
+            <div className="flex items-center gap-4">
+              <motion.a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
+                whileHover={{ y: -1 }}
+              >
+                Instagram
+              </motion.a>
+              <motion.a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
+                whileHover={{ y: -1 }}
+              >
+                TikTok
+              </motion.a>
+              <motion.a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
+                whileHover={{ y: -1 }}
+              >
+                X
+              </motion.a>
+            </div>
+          </div>
           
           {/* Easter egg - subtle human touch */}
           <motion.p 
-            className="font-body text-subtle/50 text-xs italic"
-            whileHover={{ color: "hsl(var(--text-subtle))" }}
+            className="font-body text-muted-foreground/30 text-xs italic"
+            whileHover={{ color: "hsl(var(--muted-foreground))" }}
             transition={{ duration: 0.3 }}
           >
             built slowly, with intention.
