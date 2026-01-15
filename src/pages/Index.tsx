@@ -7,10 +7,12 @@ import { Background } from "@/components/Background";
 import { Principles } from "@/components/Principles";
 import { Footer } from "@/components/Footer";
 import { GrainOverlay } from "@/components/GrainOverlay";
+import { CursorSpotlight } from "@/components/CursorSpotlight";
 
 const Index = () => {
   return (
     <main className="min-h-screen bg-background">
+      <CursorSpotlight />
       <GrainOverlay />
       <Header />
       <Hero />
