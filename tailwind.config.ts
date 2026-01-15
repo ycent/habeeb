@@ -56,6 +56,9 @@ export default {
         subtle: "hsl(var(--text-subtle))",
         warm: "hsl(var(--surface-warm))",
         "warm-hover": "hsl(var(--surface-hover))",
+        "accent-warm": "hsl(var(--accent-warm))",
+        "accent-calm": "hsl(var(--accent-calm))",
+        "accent-soft": "hsl(var(--accent-soft))",
       },
       borderRadius: {
         lg: "var(--radius)",

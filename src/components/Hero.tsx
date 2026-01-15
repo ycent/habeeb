@@ -1,23 +1,27 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useCursorPosition } from "@/hooks/useCursorPosition";
-import { useRef } from "react";
-
-const phrases = [
-  "I turn vague ideas into shipped products.",
-  "I help teams move from chaos to clarity.",
-  "I build things that reduce friction.",
-  "I lead small teams to ship real things.",
-];
+import { useRef, useState, useEffect } from "react";
+import { HeroDotField } from "./HeroDotField";
+import { RotatingStatement, statements } from "./RotatingStatement";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
   const cursor = useCursorPosition();
+  const [activeIndex, setActiveIndex] = useState(0);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
+
+  // Rotate statements every 4 seconds - slow and meditative
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % statements.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Smooth spring for cursor parallax
   const cursorX = useSpring(cursor.normalizedX * 8, { stiffness: 50, damping: 30 });
@@ -26,7 +30,6 @@ export const Hero = () => {
   // Scroll-based transforms
   const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
   const heroY = useTransform(scrollYProgress, [0, 0.4], [0, -50]);
-  const subtitleIndex = useTransform(scrollYProgress, [0, 0.05, 0.1], [0, 1, 2]);
 
   return (
     <motion.section 
@@ -34,8 +37,11 @@ export const Hero = () => {
       style={{ opacity: heroOpacity }}
       className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 relative overflow-hidden"
     >
+      {/* Subtle dot field background */}
+      <HeroDotField activeIndex={activeIndex} />
+      
       <motion.div 
-        className="max-w-4xl"
+        className="max-w-4xl relative z-10"
         style={{ y: heroY }}
       >
         <motion.p
@@ -64,18 +70,8 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="h-16 overflow-hidden relative"
         >
-          <div className="animate-text-slide">
-            {[...phrases, phrases[0]].map((phrase, index) => (
-              <p
-                key={index}
-                className="font-body text-xl md:text-2xl text-body h-16 flex items-center"
-              >
-                {phrase}
-              </p>
-            ))}
-          </div>
+          <RotatingStatement activeIndex={activeIndex} />
         </motion.div>
       </motion.div>
 
@@ -83,7 +79,7 @@ export const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.2 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
