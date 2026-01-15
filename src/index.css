@@ -42,6 +42,11 @@
     --text-subtle: 25 10% 48%;
     --surface-warm: 40 25% 96%;
     --surface-hover: 40 20% 93%;
+    
+    /* Statement accent colors - muted, premium feel */
+    --accent-warm: 42 65% 45%;  /* Muted warm yellow/gold */
+    --accent-calm: 210 45% 48%; /* Calm blue */
+    --accent-soft: 145 35% 42%; /* Soft green */
   }
 
   .dark {
@@ -78,6 +83,11 @@
     --text-subtle: 40 5% 50%;
     --surface-warm: 30 10% 12%;
     --surface-hover: 30 10% 16%;
+    
+    /* Statement accent colors - softer for dark mode */
+    --accent-warm: 45 70% 60%;  /* Warmer gold for dark mode */
+    --accent-calm: 210 55% 62%; /* Brighter calm blue */
+    --accent-soft: 150 45% 55%; /* Brighter soft green */
   }
 }
 
