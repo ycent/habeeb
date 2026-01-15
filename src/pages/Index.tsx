@@ -4,6 +4,7 @@ import { WhatIDo } from "@/components/WhatIDo";
 import { Projects } from "@/components/Projects";
 import { Leadership } from "@/components/Leadership";
 import { Background } from "@/components/Background";
+import { Quote } from "@/components/Quote";
 import { Principles } from "@/components/Principles";
 import { Footer } from "@/components/Footer";
 import { GrainOverlay } from "@/components/GrainOverlay";
@@ -20,6 +21,7 @@ const Index = () => {
       </section>
       <Leadership />
       <Background />
+      <Quote />
       <Principles />
       <Footer />
     </main>
