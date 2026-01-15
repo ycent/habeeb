@@ -12,7 +12,7 @@ const statements: Statement[] = [
     before: "I turn vague ideas into ",
     keyword: "shipped products",
     after: "",
-    accentClass: "text-accent-warm", // Muted warm yellow
+    accentClass: "text-accent-warm", // Warm sharp yellow
   },
   {
     before: "I bring ",
@@ -21,10 +21,10 @@ const statements: Statement[] = [
     accentClass: "text-accent-calm", // Calm blue
   },
   {
-    before: "I help teams move from thinking to ",
+    before: "I move teams from thinking to ",
     keyword: "execution",
     after: "",
-    accentClass: "text-accent-soft", // Soft green
+    accentClass: "text-accent-soft", // Clean green
   },
 ];
 
@@ -36,21 +36,41 @@ export const RotatingStatement = ({ activeIndex }: RotatingStatementProps) => {
   const current = statements[activeIndex];
 
   return (
-    <div className="h-16 overflow-hidden relative">
+    <div 
+      className="h-16 overflow-hidden relative"
+      style={{ perspective: "1000px" }}
+    >
       <AnimatePresence mode="wait">
         <motion.p
           key={activeIndex}
-          initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-          transition={{
-            duration: 0.8,
-            ease: [0.25, 0.46, 0.45, 0.94],
+          initial={{ 
+            rotateX: 90, 
+            opacity: 0,
+            y: 20,
           }}
-          className="font-body text-xl md:text-2xl text-body h-16 flex items-center"
+          animate={{ 
+            rotateX: 0, 
+            opacity: 1,
+            y: 0,
+          }}
+          exit={{ 
+            rotateX: -90, 
+            opacity: 0,
+            y: -20,
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.33, 1, 0.68, 1], // Custom easing for premium feel
+          }}
+          style={{
+            transformOrigin: "center center",
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+          }}
+          className="font-body text-xl md:text-2xl text-body h-16 flex items-center absolute inset-0"
         >
           <span>{current.before}</span>
-          <span className={`${current.accentClass} font-medium transition-colors duration-500`}>
+          <span className={`${current.accentClass} font-semibold`}>
             {current.keyword}
           </span>
           <span>{current.after}</span>
