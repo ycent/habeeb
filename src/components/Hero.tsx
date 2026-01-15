@@ -4,6 +4,7 @@ import { useCursorPosition } from "@/hooks/useCursorPosition";
 import { useRef, useState, useEffect } from "react";
 import { HeroDotField } from "./HeroDotField";
 import { RotatingStatement, statements } from "./RotatingStatement";
+import { HeroVideo } from "./HeroVideo";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -41,38 +42,48 @@ export const Hero = () => {
       <HeroDotField activeIndex={activeIndex} />
       
       <motion.div 
-        className="max-w-4xl relative z-10"
+        className="max-w-6xl relative z-10"
         style={{ y: heroY }}
       >
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-subtle font-body text-sm tracking-widest uppercase mb-6"
-        >
-          Product Builder
-        </motion.p>
-        
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          style={{ 
-            x: cursorX,
-            y: cursorY,
-          }}
-          className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight mb-8 text-foreground will-change-transform"
-        >
-          Hi, I'm Habeeb.
-        </motion.h1>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-        >
-          <RotatingStatement activeIndex={activeIndex} />
-        </motion.div>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
+          {/* Text content - primary focus */}
+          <div className="flex-1">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-subtle font-body text-sm tracking-widest uppercase mb-6"
+            >
+              Product Builder
+            </motion.p>
+            
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              style={{ 
+                x: cursorX,
+                y: cursorY,
+              }}
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight mb-8 text-foreground will-change-transform"
+            >
+              Hi, I'm Habeeb.
+            </motion.h1>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <RotatingStatement activeIndex={activeIndex} />
+            </motion.div>
+          </div>
+          
+          {/* Floating video card - secondary accent */}
+          <div className="hidden lg:block flex-shrink-0 mt-12 lg:mt-0">
+            <HeroVideo />
+          </div>
+        </div>
       </motion.div>
 
       <motion.div
