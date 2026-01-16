@@ -32,8 +32,8 @@ export const HeroVideo = () => {
           playsInline
           className="w-full h-full object-cover object-center transition-all duration-500 group-hover:brightness-105"
           style={{ 
-            width: "440px",
-            height: "320px",
+            width: "380px",
+            height: "420px",
           }}
         >
           <source src={heroVideo} type="video/mp4" />
