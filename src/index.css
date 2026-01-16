@@ -139,6 +139,21 @@
   .font-body {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   }
+
+  /* Light mode media treatment - grounded & intentional */
+  .media-frame {
+    @apply rounded-xl;
+  }
+  
+  :root .media-frame {
+    border: 1px solid hsl(var(--border) / 0.4);
+    box-shadow: 0 2px 8px -2px hsl(var(--foreground) / 0.06);
+  }
+  
+  .dark .media-frame {
+    border: none;
+    box-shadow: none;
+  }
 }
 
 /* Smooth section transitions */

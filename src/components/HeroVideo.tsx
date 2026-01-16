@@ -16,7 +16,7 @@ export const HeroVideo = () => {
       </div>
       
       {/* Video container */}
-      <div className="relative rounded-2xl overflow-hidden">
+      <div className="relative rounded-2xl overflow-hidden media-frame">
         {/* Subtle grain overlay */}
         <div 
           className="absolute inset-0 z-20 pointer-events-none opacity-20 mix-blend-overlay"
