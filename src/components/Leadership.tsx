@@ -8,8 +8,15 @@ interface RoleProps {
   index: number;
 }
 
-const Role = ({ organization, description, stats, index }: RoleProps) => {
+const Role = ({ organization, description, stats, index, link }: RoleProps & { link?: string }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const TitleWrapper = link ? 'a' : 'span';
+  const titleProps = link ? { 
+    href: link, 
+    target: "_blank", 
+    rel: "noopener noreferrer" 
+  } : {};
 
   return (
     <motion.div
@@ -22,13 +29,15 @@ const Role = ({ organization, description, stats, index }: RoleProps) => {
       className="group flex flex-col md:flex-row md:items-start gap-4 md:gap-8 py-8 border-b border-border last:border-b-0 cursor-default"
     >
       <div className="md:w-1/3">
-        <motion.h3 
-          className="font-display text-xl md:text-2xl group-hover:text-primary transition-colors duration-300"
-          animate={{ x: isHovered ? 4 : 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {organization}
-        </motion.h3>
+        <TitleWrapper {...titleProps}>
+          <motion.h3 
+            className={`font-display text-xl md:text-2xl group-hover:text-primary transition-colors duration-300 ${link ? 'cursor-pointer' : ''}`}
+            animate={{ x: isHovered ? 4 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {organization}
+          </motion.h3>
+        </TitleWrapper>
         
         {/* Progressive disclosure - stats appear on hover */}
         <motion.p
@@ -56,6 +65,7 @@ export const Leadership = () => {
       organization: "Google Developer Groups",
       description: "Led community initiatives at scale. Coordinated events, managed volunteers, and built systems that kept hundreds of developers connected and engaged.",
       stats: "500+ developers • 20+ events",
+      link: "https://gdgbabcock.com",
     },
     {
       organization: "New Horizon Tech-Hub",

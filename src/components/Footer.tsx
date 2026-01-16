@@ -43,7 +43,7 @@ export const Footer = () => {
           className="flex flex-col sm:flex-row gap-6"
         >
           <motion.a
-            href="mailto:hello@habeeb.dev"
+            href="mailto:habeebabayomi6@gmail.com"
             className="group inline-flex items-center gap-3 font-body text-foreground/80 hover:text-primary transition-colors duration-300"
             whileHover={{ x: 4 }}
             transition={{ duration: 0.2 }}
@@ -56,7 +56,7 @@ export const Footer = () => {
           </motion.a>
 
           <motion.a
-            href="https://linkedin.com/in/habeebmuhammed"
+            href="https://www.linkedin.com/in/habeeb-muhammed-44715a309"
             target="_blank"
             rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 font-body text-foreground/80 hover:text-primary transition-colors duration-300"
@@ -71,8 +71,9 @@ export const Footer = () => {
           </motion.a>
 
           <motion.a
-            href="/cv.pdf"
-            download
+            href="/Habeeb-Muhammed-CV.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-3 font-body text-foreground/60 hover:text-foreground/80 transition-colors duration-300 border border-border/50 px-4 py-2 rounded-sm hover:border-border"
             whileHover={{ x: 4 }}
             transition={{ duration: 0.2 }}
@@ -99,7 +100,7 @@ export const Footer = () => {
             {/* Social links - whisper quiet */}
             <div className="flex items-center gap-4">
               <motion.a
-                href="https://instagram.com"
+                href="https://www.instagram.com/uncle_ola234?igsh=b241Z3BhazRkcXVr&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
@@ -108,7 +109,7 @@ export const Footer = () => {
                 Instagram
               </motion.a>
               <motion.a
-                href="https://tiktok.com"
+                href="https://www.tiktok.com/@centz.png?_r=1&_t=ZS-936cwRgyrUS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
@@ -117,7 +118,7 @@ export const Footer = () => {
                 TikTok
               </motion.a>
               <motion.a
-                href="https://twitter.com"
+                href="https://x.com/ycent003?s=21"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-body text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors duration-300"
