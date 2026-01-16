@@ -11,12 +11,12 @@ export const Quote = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-6"
+          className="mb-8"
         >
           <img
             src={bicWinImage}
             alt="Babcock Innovation Challenge Winner"
-            className="w-full max-w-md mx-auto rounded-lg grayscale-[30%] contrast-[0.95] opacity-90"
+            className="w-full max-w-xl mx-auto media-frame"
             style={{
               filter: "grayscale(30%) contrast(0.95) sepia(5%)",
             }}
