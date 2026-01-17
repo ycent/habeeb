@@ -25,11 +25,16 @@ export const Header = () => {
       <nav className="flex items-center justify-between">
         <motion.a 
           href="#" 
-          className="font-display text-lg text-foreground hover:text-primary transition-colors duration-300"
-          whileHover={{ scale: 1.05 }}
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="group relative font-display text-lg tracking-tight text-foreground/90 hover:text-foreground transition-colors duration-300"
+          whileHover={{ opacity: 0.8 }}
           whileTap={{ scale: 0.98 }}
         >
-          HM
+          <span className="font-light">H</span>
+          <span className="font-medium">M</span>
         </motion.a>
         
         <div className="flex items-center gap-6">

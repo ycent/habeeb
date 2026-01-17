@@ -1,7 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
-import nexspotGithub from "@/assets/nexspot-github.png";
 
 interface ProjectProps {
   name: string;
@@ -11,10 +10,9 @@ interface ProjectProps {
   outcome: string;
   microcopy: string;
   index: number;
-  proofImage?: string;
 }
 
-const Project = ({ name, tagline, problem, role, outcome, microcopy, index, proofImage }: ProjectProps) => {
+const Project = ({ name, tagline, problem, role, outcome, microcopy, index }: ProjectProps) => {
   const ref = useRef<HTMLElement>(null);
   
   // Cursor tilt effect
@@ -126,26 +124,6 @@ const Project = ({ name, tagline, problem, role, outcome, microcopy, index, proo
               {outcome}
             </p>
           </motion.div>
-
-          {/* Proof of work image - only for Nexspot */}
-          {proofImage && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="mt-8"
-            >
-              <img
-                src={proofImage}
-                alt="Nexspot GitHub project board"
-                className="w-full max-w-md rounded-lg media-frame grayscale-[30%] contrast-[0.95] opacity-90"
-              />
-              <p className="font-body text-xs text-muted-foreground/50 mt-3 italic">
-                Nexspot — proof of work
-              </p>
-            </motion.div>
-          )}
         </div>
       </div>
 
@@ -195,7 +173,6 @@ export const Projects = () => {
       role: "Founded and led product direction. Made decisions on feature priority, user experience, and technical architecture. This was the 'do everything' founder role.",
       outcome: "Built a working product and learned more about execution, constraints, and what it means to own something end-to-end.",
       microcopy: "The founder chapter →",
-      proofImage: nexspotGithub,
     },
   ];
 

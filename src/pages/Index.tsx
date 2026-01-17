@@ -8,6 +8,7 @@ import { Quote } from "@/components/Quote";
 import { Principles } from "@/components/Principles";
 import { Footer } from "@/components/Footer";
 import { GrainOverlay } from "@/components/GrainOverlay";
+import { ProofOfWork } from "@/components/ProofOfWork";
 
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
       <Leadership />
       <Background />
       <Quote />
+      <ProofOfWork />
       <Principles />
       <Footer />
     </main>
