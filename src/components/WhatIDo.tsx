@@ -113,10 +113,10 @@ export const WhatIDo = () => {
     {
       title: "From unclear to clear",
       description: "Taking ambiguous problems and turning them into structured product plans that teams can actually execute.",
-      expanded: "I've spent years translating stakeholder chaos into clear roadmaps. The skill isn't just understanding what to build—it's knowing what not to build.",
+      expanded: "I've spent years translating stakeholder chaos into clear roadmaps. The skill isn't just understanding what to build, it's knowing what not to build.",
     },
     {
-      title: "Leading small teams",
+      title: "Leading small & Large teams",
       description: "Coordinating across design, engineering, and business to ship products that actually work.",
       expanded: "Real ownership means being accountable for outcomes, not just tasks. I've led cross-functional teams where everyone knows their role and the north star.",
     },
